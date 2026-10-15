@@ -3,813 +3,708 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Games</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<title>Home</title>
 <style>
-:root {
-  --bg: #0b0b0f;
-  --sidebar: #121218;
-  --card: #18181f;
-  --border: #2a2a35;
-  --text: #eee;
-  --muted: #888;
-  --accent: #7c6bff;
-  --accent-hover: #6a58e8;
-  --radius: 12px;
-  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
-[data-theme="dark"] {
-  --bg: #0b0b0f;
-  --sidebar: #121218;
-  --card: #18181f;
-  --border: #2a2a35;
-  --text: #eee;
-  --muted: #888;
-  --accent: #7c6bff;
-}
-
-[data-theme="midnight"] {
-  --bg: #0a0e17;
-  --sidebar: #0f1520;
-  --card: #151c2c;
-  --border: #1e2a3a;
-  --text: #e8eef7;
-  --muted: #7a8ba3;
-  --accent: #3b82f6;
-}
-
-[data-theme="ember"] {
-  --bg: #140c0c;
-  --sidebar: #1a1010;
-  --card: #221616;
-  --border: #3a2424;
-  --text: #ffe8e8;
-  --muted: #a88;
-  --accent: #ff5c5c;
-}
-
-[data-theme="forest"] {
-  --bg: #0c140f;
-  --sidebar: #101a14;
-  --card: #16221a;
-  --border: #243a2c;
-  --text: #e8ffe8;
-  --muted: #8aa;
-  --accent: #4ade80;
-}
-
-[data-theme="light"] {
-  --bg: #f4f4f8;
-  --sidebar: #ffffff;
-  --card: #ffffff;
-  --border: #e0e0e8;
-  --text: #111;
-  --muted: #666;
-  --accent: #6c5ce7;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Inter, system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  display: flex;
-  min-height: 100vh;
-  overflow-x: hidden;
-  transition: background var(--transition), color var(--transition);
-}
-
-body.no-motion * {
-  transition: none !important;
-  animation: none !important;
-}
-
-.sidebar {
-  width: 230px;
-  background: var(--sidebar);
-  border-right: 1px solid var(--border);
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-  transition: transform var(--transition);
-}
-
-.logo {
-  padding: 24px 20px 20px;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo span {
-  background: linear-gradient(135deg, var(--accent), #a78bfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.nav {
-  flex: 1;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 14px;
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 14.5px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all var(--transition);
-  text-align: left;
-  width: 100%;
-}
-
-.nav-btn:hover {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--text);
-}
-
-.nav-btn.active {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.nav-btn svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-.sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid var(--border);
-}
-
-.main {
-  margin-left: 230px;
-  flex: 1;
-  padding: 32px 40px;
-  min-height: 100vh;
-}
-
-.page {
-  display: none;
-  animation: fadeIn 0.25s ease;
-}
-
-.page.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.header {
-  margin-bottom: 28px;
-}
-
-.header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 6px;
-}
-
-.header p {
-  color: var(--muted);
-  font-size: 14.5px;
-}
-
-.search-wrap {
-  position: relative;
-  max-width: 420px;
-  margin-bottom: 28px;
-}
-
-.search-wrap input {
-  width: 100%;
-  padding: 13px 16px 13px 44px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-size: 15px;
-  outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
-}
-
-.search-wrap input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
-}
-
-.search-wrap svg {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: var(--muted);
-  pointer-events: none;
-}
-
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 18px;
-}
-
-.game-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  transition: all var(--transition);
-  position: relative;
-}
-
-.game-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent);
-  box-shadow: 0 12px 24px -8px color-mix(in srgb, var(--accent) 30%, transparent);
-}
-
-.game-card img {
-  width: 100%;
-  height: 110px;
-  object-fit: cover;
-  background: #1a1a22;
-  display: block;
-}
-
-.game-card .info {
-  padding: 12px 14px;
-}
-
-.game-card .name {
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.game-card .badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: color-mix(in srgb, var(--accent) 90%, black);
-  color: white;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 7px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.settings-grid {
-  display: grid;
-  gap: 16px;
-  max-width: 560px;
-}
-
-.setting-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-}
-
-.setting-card label {
-  display: block;
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-
-.theme-options, .option-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.theme-btn, .opt-btn {
-  padding: 9px 16px;
-  border-radius: 9px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  font-size: 13.5px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.theme-btn:hover, .opt-btn:hover {
-  border-color: var(--accent);
-}
-
-.theme-btn.active, .opt-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-.setting-card input[type="text"] {
-  width: 100%;
-  padding: 11px 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  color: var(--text);
-  font-size: 14px;
-  outline: none;
-}
-
-.setting-card input[type="text"]:focus {
-  border-color: var(--accent);
-}
-
-.proxy-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 28px;
-}
-
-.proxy-box h3 {
-  font-size: 15px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.proxy-input-row {
-  display: flex;
-  gap: 10px;
-}
-
-.proxy-input-row input {
-  flex: 1;
-  padding: 12px 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--text);
-  font-size: 14px;
-  outline: none;
-}
-
-.proxy-input-row input:focus {
-  border-color: var(--accent);
-}
-
-.proxy-input-row button {
-  padding: 0 20px;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background var(--transition);
-}
-
-.proxy-input-row button:hover {
-  background: var(--accent-hover);
-}
-
-.player-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 200;
-  display: none;
-  flex-direction: column;
-}
-
-.player-overlay.active {
-  display: flex;
-}
-
-.player-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--sidebar);
-  border-bottom: 1px solid var(--border);
-}
-
-.player-bar button {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 7px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all var(--transition);
-}
-
-.player-bar button:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.player-title {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.player-frame {
-  flex: 1;
-  border: none;
-  width: 100%;
-  background: #000;
-}
-
-.toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-size: 13.5px;
-  z-index: 300;
-  animation: slideUp 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 700px) {
-  .sidebar {
-    transform: translateX(-100%);
+  :root {
+    --bg: #0c1a2e;
+    --glass: rgba(20, 30, 50, 0.55);
+    --glass-border: rgba(255,255,255,0.08);
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #7dd3fc;
+    --radius: 18px;
   }
-  .sidebar.open {
-    transform: translateX(0);
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    color: var(--text);
+    overflow-x: hidden;
+    background: #0c1a2e;
+    transition: background 0.6s ease;
   }
-  .main {
-    margin-left: 0;
+
+  /* Backgrounds */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease;
+  }
+
+  .bg.mountain {
+    background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80');
+  }
+  .bg.forest {
+    background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80');
+  }
+  .bg.lake {
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920&q=80');
+  }
+  .bg.desert {
+    background-image: url('https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1920&q=80');
+  }
+  .bg.aurora {
+    background-image: url('https://images.unsplash.com/photo-1531366936337-7c912a45b4d9?w=1920&q=80');
+  }
+  .bg.ocean {
+    background-image: url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1920&q=80');
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,20,40,0.35), rgba(10,20,40,0.55));
+    z-index: -1;
+  }
+
+  /* Top bar */
+  .topbar {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    padding: 6px 10px;
+    z-index: 50;
+  }
+
+  .topbar button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .topbar button:hover,
+  .topbar button.active {
+    background: rgba(255,255,255,0.12);
+    color: white;
+  }
+
+  .topbar button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .profile {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    padding: 5px 12px 5px 5px;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+    z-index: 50;
+  }
+
+  .profile img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* Center content */
+  .center {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
+    text-align: center;
   }
-}
+
+  .clock {
+    font-size: clamp(64px, 12vw, 110px);
+    font-weight: 300;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .greeting {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    font-weight: 400;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    padding: 6px 6px 6px 18px;
+    width: 100%;
+    max-width: 480px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-box:focus-within {
+    border-color: rgba(255,255,255,0.25);
+    box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.15);
+  }
+
+  .search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+  .search-box input::placeholder {
+    color: var(--muted);
+  }
+
+  .search-box button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .search-box button:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* Quick apps */
+  .apps {
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .app {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    color: white;
+    font-size: 20px;
+  }
+
+  .app:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.15);
+  }
+
+  .app.add {
+    border-style: dashed;
+    opacity: 0.5;
+  }
+
+  /* Pages */
+  .page {
+    display: none;
+    min-height: 100vh;
+    padding: 90px 40px 40px;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .page-sub {
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-size: 14px;
+  }
+
+  /* Games grid */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+
+  .game-card {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .game-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .game-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    background: rgba(0,0,0,0.3);
+  }
+
+  .game-card .name {
+    padding: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+
+  /* Settings */
+  .settings-grid {
+    display: grid;
+    gap: 16px;
+    max-width: 520px;
+  }
+
+  .setting {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+
+  .setting label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .opt {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .opt:hover, .opt.active {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  .setting input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.25);
+    color: white;
+    font-size: 14px;
+    outline: none;
+  }
+
+  /* Player */
+  .player {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0f;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+  }
+
+  .player.active { display: flex; }
+
+  .player-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(20,25,40,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .player-bar button {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: white;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .player-bar button:hover {
+    background: rgba(255,255,255,0.15);
+  }
+
+  .player-title {
+    flex: 1;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .player iframe {
+    flex: 1;
+    border: none;
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .clock { font-size: 64px; }
+    .page { padding: 80px 20px 30px; }
+  }
 </style>
 </head>
-<body data-theme="dark">
+<body>
 
-<aside class="sidebar" id="sidebar">
-  <div class="logo"><span>arcade</span></div>
-  <nav class="nav">
-    <button class="nav-btn active" data-page="home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
-    </button>
-    <button class="nav-btn" data-page="games">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg>
-      Games
-    </button>
-    <button class="nav-btn" data-page="proxy">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      Proxy
-    </button>
-    <button class="nav-btn" data-page="settings">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      Settings
-    </button>
-  </nav>
-  <div class="sidebar-footer">
-    <button class="nav-btn" id="panic-btn" style="color:#ff6b6b">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Panic
+<div class="bg mountain" id="bg"></div>
+<div class="overlay"></div>
+
+<!-- Top Navigation -->
+<nav class="topbar">
+  <button class="active" data-page="home" title="Home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+  </button>
+  <button data-page="games" title="Games">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="16" cy="11" r="1"/><circle cx="18" cy="13" r="1"/></svg>
+  </button>
+  <button data-page="proxy" title="Proxy">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  </button>
+  <button data-page="settings" title="Settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+</nav>
+
+<div class="profile" id="profile">
+  <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=atm" alt="">
+  <span id="username">atm</span>
+</div>
+
+<!-- HOME -->
+<section id="home" class="page active">
+  <div class="center">
+    <div class="clock" id="clock">00:00</div>
+    <div class="greeting" id="greeting">good afternoon</div>
+
+    <div class="search-box">
+      <input type="text" id="search" placeholder="search or enter url" autocomplete="off">
+      <button id="go-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+
+    <div class="apps" id="apps">
+      <div class="app" data-url="https://youtube.com" title="YouTube">▶</div>
+      <div class="app" data-url="https://github.com" title="GitHub">⌥</div>
+      <div class="app" data-url="https://chat.openai.com" title="ChatGPT">✦</div>
+      <div class="app" data-url="https://discord.com/app" title="Discord">💬</div>
+      <div class="app" data-url="https://open.spotify.com" title="Spotify">♪</div>
+      <div class="app add" title="Add">+</div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section id="games" class="page">
+  <div class="page-title">Games</div>
+  <div class="page-sub">click any game to play</div>
+  <div class="games-grid" id="games-grid"></div>
+</section>
+
+<!-- PROXY -->
+<section id="proxy" class="page">
+  <div class="page-title">Proxy</div>
+  <div class="page-sub">browse any website</div>
+  <div class="search-box" style="max-width:520px; margin-bottom:24px;">
+    <input type="text" id="proxy-input" placeholder="https://example.com" value="https://">
+    <button id="proxy-go">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
   </div>
-</aside>
+  <div class="apps">
+    <div class="app" data-proxy="https://google.com">G</div>
+    <div class="app" data-proxy="https://youtube.com">▶</div>
+    <div class="app" data-proxy="https://reddit.com">R</div>
+    <div class="app" data-proxy="https://twitter.com">X</div>
+    <div class="app" data-proxy="https://tiktok.com">T</div>
+  </div>
+</section>
 
-<main class="main">
-  <section id="home" class="page active">
-    <div class="header">
-      <h1>Home</h1>
-      <p>Pick a game or jump into the proxy</p>
-    </div>
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="home-search" placeholder="Search games...">
-    </div>
-    <div class="games-grid" id="home-grid"></div>
-  </section>
+<!-- SETTINGS -->
+<section id="settings" class="page">
+  <div class="page-title">Settings</div>
+  <div class="page-sub">make it yours</div>
 
-  <section id="games" class="page">
-    <div class="header">
-      <h1>Games</h1>
-      <p>Full library</p>
+  <div class="settings-grid">
+    <div class="setting">
+      <label>Background</label>
+      <div class="options">
+        <button class="opt active" data-bg="mountain">Mountains</button>
+        <button class="opt" data-bg="forest">Forest</button>
+        <button class="opt" data-bg="lake">Lake</button>
+        <button class="opt" data-bg="desert">Desert</button>
+        <button class="opt" data-bg="aurora">Aurora</button>
+        <button class="opt" data-bg="ocean">Ocean</button>
+      </div>
     </div>
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="games-search" placeholder="Search games...">
-    </div>
-    <div class="games-grid" id="games-grid"></div>
-  </section>
 
-  <section id="proxy" class="page">
-    <div class="header">
-      <h1>Proxy</h1>
-      <p>Browse any site through the proxy</p>
+    <div class="setting">
+      <label>Username</label>
+      <input type="text" id="name-input" value="atm">
     </div>
-    <div class="proxy-box">
-      <h3>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Enter a URL
-      </h3>
-      <div class="proxy-input-row">
-        <input type="text" id="proxy-url" placeholder="https://example.com" value="https://">
-        <button id="proxy-go">Go</button>
-      </div>
-    </div>
-    <div class="proxy-box">
-      <h3>Quick Links</h3>
-      <div class="option-row" style="margin-top:12px">
-        <button class="opt-btn" data-proxy="https://google.com">Google</button>
-        <button class="opt-btn" data-proxy="https://youtube.com">YouTube</button>
-        <button class="opt-btn" data-proxy="https://discord.com/app">Discord</button>
-        <button class="opt-btn" data-proxy="https://reddit.com">Reddit</button>
-        <button class="opt-btn" data-proxy="https://tiktok.com">TikTok</button>
-        <button class="opt-btn" data-proxy="https://spotify.com">Spotify</button>
-      </div>
-    </div>
-  </section>
 
-  <section id="settings" class="page">
-    <div class="header">
-      <h1>Settings</h1>
-      <p>Customize everything</p>
+    <div class="setting">
+      <label>Panic Key Destination</label>
+      <input type="text" id="panic-url" value="https://classroom.google.com">
     </div>
-    <div class="settings-grid">
-      <div class="setting-card">
-        <label>Theme</label>
-        <div class="theme-options">
-          <button class="theme-btn active" data-theme="dark">Dark</button>
-          <button class="theme-btn" data-theme="midnight">Midnight</button>
-          <button class="theme-btn" data-theme="ember">Ember</button>
-          <button class="theme-btn" data-theme="forest">Forest</button>
-          <button class="theme-btn" data-theme="light">Light</button>
-        </div>
-      </div>
-      <div class="setting-card">
-        <label>Tab Cloak</label>
-        <div class="option-row">
-          <button class="opt-btn active" data-cloak="Games">None</button>
-          <button class="opt-btn" data-cloak="Google">Google</button>
-          <button class="opt-btn" data-cloak="Classroom">Classroom</button>
-          <button class="opt-btn" data-cloak="Drive">Drive</button>
-          <button class="opt-btn" data-cloak="Docs">Docs</button>
-        </div>
-      </div>
-      <div class="setting-card">
-        <label>Panic Key Destination</label>
-        <input type="text" id="panic-url" value="https://classroom.google.com">
-      </div>
-      <div class="setting-card">
-        <label>Animations</label>
-        <div class="option-row">
-          <button class="opt-btn active" data-motion="on">On</button>
-          <button class="opt-btn" data-motion="off">Off</button>
-        </div>
-      </div>
-      <div class="setting-card">
-        <label>Site Name</label>
-        <input type="text" id="site-name" value="arcade">
-      </div>
-    </div>
-  </section>
-</main>
 
-<div class="player-overlay" id="player">
+    <div class="setting">
+      <label>Tab Cloak</label>
+      <div class="options">
+        <button class="opt active" data-cloak="Home">None</button>
+        <button class="opt" data-cloak="Google">Google</button>
+        <button class="opt" data-cloak="Classroom">Classroom</button>
+        <button class="opt" data-cloak="Drive">Drive</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Player -->
+<div class="player" id="player">
   <div class="player-bar">
-    <button id="player-back">← Back</button>
+    <button id="back-btn">← Back</button>
     <div class="player-title" id="player-title">Loading...</div>
-    <button id="player-reload">Reload</button>
-    <button id="player-newtab">New Tab</button>
-    <button id="player-fs">Fullscreen</button>
+    <button id="reload-btn">Reload</button>
+    <button id="newtab-btn">New Tab</button>
   </div>
-  <iframe class="player-frame" id="player-frame" allowfullscreen></iframe>
+  <iframe id="frame" allowfullscreen></iframe>
 </div>
 
 <script>
 const GAMES = [
-  { name: "Slope", url: "https://slope.io", badge: "Popular" },
-  { name: "1v1.LOL", url: "https://1v1.lol", badge: "Multi" },
-  { name: "Retro Bowl", url: "https://retrobowl.me", badge: "Sports" },
-  { name: "Cookie Clicker", url: "https://orteil.dashnet.org/cookieclicker/", badge: "Idle" },
-  { name: "2048", url: "https://play2048.co", badge: "Puzzle" },
-  { name: "Tunnel Rush", url: "https://tunnelrush.io", badge: "Action" },
-  { name: "Stack Ball", url: "https://stackball.io", badge: "Arcade" },
-  { name: "Geometry Dash", url: "https://geometrydash.io", badge: "Rhythm" },
-  { name: "Drift Hunters", url: "https://drift-hunters.co", badge: "Racing" },
-  { name: "Basket Random", url: "https://basketrandom.io", badge: "Sports" },
-  { name: "Moto X3M", url: "https://motox3m.io", badge: "Racing" },
-  { name: "Happy Wheels", url: "https://totaljerkface.com/happy_wheels.tjf", badge: "Classic" },
-  { name: "Run 3", url: "https://run3.io", badge: "Arcade" },
-  { name: "Crossy Road", url: "https://crossyroad.io", badge: "Arcade" },
-  { name: "Flappy Bird", url: "https://flappybird.io", badge: "Classic" },
-  { name: "Subway Surfers", url: "https://subwaysurfers.io", badge: "Runner" }
+  { name: "Slope", url: "https://slope.io" },
+  { name: "1v1.LOL", url: "https://1v1.lol" },
+  { name: "Retro Bowl", url: "https://retrobowl.me" },
+  { name: "Cookie Clicker", url: "https://orteil.dashnet.org/cookieclicker/" },
+  { name: "2048", url: "https://play2048.co" },
+  { name: "Tunnel Rush", url: "https://tunnelrush.io" },
+  { name: "Stack Ball", url: "https://stackball.io" },
+  { name: "Geometry Dash", url: "https://geometrydash.io" },
+  { name: "Drift Hunters", url: "https://drift-hunters.co" },
+  { name: "Moto X3M", url: "https://motox3m.io" },
+  { name: "Run 3", url: "https://run3.io" },
+  { name: "Basket Random", url: "https://basketrandom.io" }
 ];
 
+const PROXY = "https://uv.holyubofficial.net/service/";
 const CLOAKS = {
-  Games: { title: "Games", favicon: null },
-  Google: { title: "Google", favicon: "https://www.google.com/favicon.ico" },
-  Classroom: { title: "Classes", favicon: "https://ssl.gstatic.com/classroom/favicon.ico" },
-  Drive: { title: "My Drive - Google Drive", favicon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" },
-  Docs: { title: "Document", favicon: "https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" }
+  Home: { title: "Home", icon: null },
+  Google: { title: "Google", icon: "https://www.google.com/favicon.ico" },
+  Classroom: { title: "Classes", icon: "https://ssl.gstatic.com/classroom/favicon.ico" },
+  Drive: { title: "My Drive", icon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" }
 };
-
-const PROXY_BASE = "https://uv.holyubofficial.net/service/";
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
+let current = "";
 
-let currentUrl = "";
+function save(k, v) { localStorage.setItem("nat_" + k, v); }
+function load(k, f) { return localStorage.getItem("nat_" + k) || f; }
 
-function toast(msg) {
-  const t = document.createElement("div");
-  t.className = "toast";
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, "0");
+  const m = String(now.getMinutes()).padStart(2, "0");
+  $("#clock").textContent = `${h}:${m}`;
+
+  const hour = now.getHours();
+  let greet = "good evening";
+  if (hour < 12) greet = "good morning";
+  else if (hour < 18) greet = "good afternoon";
+
+  const days = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+  const months = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+  const day = days[now.getDay()];
+  const date = now.getDate();
+  const month = months[now.getMonth()];
+
+  $("#greeting").textContent = `${greet} · ${day} ${date} ${month}`;
 }
 
-function save(key, val) {
-  localStorage.setItem("arcade_" + key, val);
-}
-
-function load(key, fallback) {
-  return localStorage.getItem("arcade_" + key) || fallback;
-}
-
-function setTheme(name) {
-  document.body.dataset.theme = name;
-  save("theme", name);
-  $$(".theme-btn").forEach(b => b.classList.toggle("active", b.dataset.theme === name));
+function setBg(name) {
+  const bg = $("#bg");
+  bg.className = "bg " + name;
+  save("bg", name);
+  $$("[data-bg]").forEach(b => b.classList.toggle("active", b.dataset.bg === name));
 }
 
 function setCloak(name) {
-  const c = CLOAKS[name] || CLOAKS.Games;
+  const c = CLOAKS[name] || CLOAKS.Home;
   document.title = c.title;
   let link = document.querySelector("link[rel*='icon']") || document.createElement("link");
   link.rel = "icon";
-  if (c.favicon) link.href = c.favicon;
-  else link.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>";
+  link.href = c.icon || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>";
   document.head.appendChild(link);
   save("cloak", name);
   $$("[data-cloak]").forEach(b => b.classList.toggle("active", b.dataset.cloak === name));
 }
 
-function setMotion(on) {
-  document.body.classList.toggle("no-motion", !on);
-  save("motion", on ? "on" : "off");
-  $$("[data-motion]").forEach(b => b.classList.toggle("active", b.dataset.motion === (on ? "on" : "off")));
-}
-
 function showPage(id) {
   $$(".page").forEach(p => p.classList.remove("active"));
   $("#" + id).classList.add("active");
-  $$(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.page === id));
-}
-
-function cardHTML(g) {
-  const img = `https://via.placeholder.com/160x110/1a1a22/7c6bff?text=${encodeURIComponent(g.name)}`;
-  return `
-    <div class="game-card" data-url="${g.url}" data-name="${g.name}">
-      ${g.badge ? `<span class="badge">${g.badge}</span>` : ""}
-      <img src="${img}" alt="${g.name}" loading="lazy">
-      <div class="info"><div class="name">${g.name}</div></div>
-    </div>`;
-}
-
-function renderGames(list, target) {
-  $(target).innerHTML = list.map(cardHTML).join("");
-  $$(target + " .game-card").forEach(card => {
-    card.onclick = () => openPlayer(card.dataset.url, card.dataset.name);
-  });
-}
-
-function filterGames(q, target) {
-  const filtered = GAMES.filter(g => g.name.toLowerCase().includes(q.toLowerCase()));
-  renderGames(filtered, target);
+  $$(".topbar button").forEach(b => b.classList.toggle("active", b.dataset.page === id));
 }
 
 function openPlayer(url, title) {
-  currentUrl = url;
+  current = url;
   $("#player-title").textContent = title || url;
-  $("#player-frame").src = url;
+  $("#frame").src = url;
   $("#player").classList.add("active");
 }
 
 function closePlayer() {
   $("#player").classList.remove("active");
-  $("#player-frame").src = "about:blank";
+  $("#frame").src = "about:blank";
 }
 
 function openProxy(url) {
   if (!url.startsWith("http")) url = "https://" + url;
-  const proxied = PROXY_BASE + encodeURIComponent(url);
-  openPlayer(proxied, url);
+  openPlayer(PROXY + encodeURIComponent(url), url);
 }
 
-function panic() {
-  const dest = $("#panic-url").value || "https://classroom.google.com";
-  window.location.href = dest;
+function renderGames() {
+  $("#games-grid").innerHTML = GAMES.map(g => `
+    <div class="game-card" data-url="${g.url}" data-name="${g.name}">
+      <img src="https://via.placeholder.com/150x100/1a2a3a/7dd3fc?text=${encodeURIComponent(g.name)}" alt="">
+      <div class="name">${g.name}</div>
+    </div>
+  `).join("");
+
+  $$("#games-grid .game-card").forEach(c => {
+    c.onclick = () => openPlayer(c.dataset.url, c.dataset.name);
+  });
+}
+
+function handleSearch(val) {
+  if (!val.trim()) return;
+  if (val.includes(".") || val.startsWith("http")) {
+    openProxy(val);
+  } else {
+    openProxy("https://www.google.com/search?q=" + encodeURIComponent(val));
+  }
 }
 
 function init() {
-  const theme = load("theme", "dark");
-  const cloak = load("cloak", "Games");
-  const motion = load("motion", "on");
-  const panicUrl = load("panicUrl", "https://classroom.google.com");
-  const siteName = load("siteName", "arcade");
+  updateClock();
+  setInterval(updateClock, 1000);
 
-  setTheme(theme);
+  const bg = load("bg", "mountain");
+  const cloak = load("cloak", "Home");
+  const name = load("name", "atm");
+  const panic = load("panic", "https://classroom.google.com");
+
+  setBg(bg);
   setCloak(cloak);
-  setMotion(motion === "on");
-  $("#panic-url").value = panicUrl;
-  $("#site-name").value = siteName;
-  $(".logo span").textContent = siteName;
+  $("#username").textContent = name;
+  $("#name-input").value = name;
+  $("#panic-url").value = panic;
 
-  renderGames(GAMES.slice(0, 8), "#home-grid");
-  renderGames(GAMES, "#games-grid");
+  renderGames();
 
-  $$(".nav-btn[data-page]").forEach(btn => {
-    btn.onclick = () => showPage(btn.dataset.page);
+  $$(".topbar button").forEach(b => {
+    b.onclick = () => showPage(b.dataset.page);
   });
 
-  $("#home-search").oninput = e => filterGames(e.target.value, "#home-grid");
-  $("#games-search").oninput = e => filterGames(e.target.value, "#games-grid");
+  $("#go-btn").onclick = () => handleSearch($("#search").value);
+  $("#search").onkeydown = e => { if (e.key === "Enter") handleSearch(e.target.value); };
 
-  $$(".theme-btn").forEach(b => b.onclick = () => setTheme(b.dataset.theme));
+  $("#proxy-go").onclick = () => openProxy($("#proxy-input").value);
+  $("#proxy-input").onkeydown = e => { if (e.key === "Enter") openProxy(e.target.value); };
+
+  $$("[data-url]").forEach(a => {
+    if (a.classList.contains("app")) {
+      a.onclick = () => openProxy(a.dataset.url);
+    }
+  });
+
+  $$("[data-proxy]").forEach(a => {
+    a.onclick = () => openProxy(a.dataset.proxy);
+  });
+
+  $$("[data-bg]").forEach(b => b.onclick = () => setBg(b.dataset.bg));
   $$("[data-cloak]").forEach(b => b.onclick = () => setCloak(b.dataset.cloak));
-  $$("[data-motion]").forEach(b => b.onclick = () => setMotion(b.dataset.motion === "on"));
 
-  $("#panic-url").onchange = e => save("panicUrl", e.target.value);
-  $("#site-name").onchange = e => {
-    save("siteName", e.target.value);
-    $(".logo span").textContent = e.target.value;
+  $("#name-input").onchange = e => {
+    save("name", e.target.value);
+    $("#username").textContent = e.target.value;
   };
 
-  $("#proxy-go").onclick = () => openProxy($("#proxy-url").value);
-  $("#proxy-url").onkeydown = e => { if (e.key === "Enter") openProxy(e.target.value); };
-  $$("[data-proxy]").forEach(b => b.onclick = () => openProxy(b.dataset.proxy));
+  $("#panic-url").onchange = e => save("panic", e.target.value);
 
-  $("#player-back").onclick = closePlayer;
-  $("#player-reload").onclick = () => { $("#player-frame").src = currentUrl; };
-  $("#player-newtab").onclick = () => window.open(currentUrl, "_blank");
-  $("#player-fs").onclick = () => {
-    const f = $("#player-frame");
-    if (f.requestFullscreen) f.requestFullscreen();
-  };
+  $("#back-btn").onclick = closePlayer;
+  $("#reload-btn").onclick = () => { $("#frame").src = current; };
+  $("#newtab-btn").onclick = () => window.open(current, "_blank");
 
-  $("#panic-btn").onclick = panic;
   document.addEventListener("keydown", e => {
-    if (e.key === "]" || e.key === "Escape") {
-      if (e.key === "]") panic();
+    if (e.key === "]") {
+      window.location.href = $("#panic-url").value || "https://classroom.google.com";
     }
   });
 }
