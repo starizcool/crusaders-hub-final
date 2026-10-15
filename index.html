@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Games Site</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #0f0f13;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #16161d;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px 0;
+      border-right: 1px solid #2a2a35;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      padding: 0 20px 30px;
+      color: #7c6bff;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      cursor: pointer;
+      color: #aaa;
+      transition: 0.2s;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: #1f1f2a;
+      color: white;
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 220px;
+      padding: 30px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    /* Games grid */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .game-card {
+      background: #1c1c26;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid #2a2a35;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: #7c6bff;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      background: #2a2a35;
+    }
+
+    .game-card .title {
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Search */
+    .search-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid #2a2a35;
+      background: #1c1c26;
+      color: white;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #7c6bff;
+    }
+
+    /* Settings */
+    .setting {
+      background: #1c1c26;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      background: #7c6bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6a58e8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">MySite</div>
+    <div class="nav-item active" onclick="showPage('home')">🏠 Home</div>
+    <div class="nav-item" onclick="showPage('games')">🎮 Games</div>
+    <div class="nav-item" onclick="showPage('settings')">⚙️ Settings</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+      <h1>Welcome</h1>
+      <p style="color:#aaa; margin-bottom: 30px;">Your personal unblocked games site</p>
+      
+      <input class="search-box" placeholder="Search games..." oninput="searchGames(this.value)">
+      
+      <div class="games-grid" id="home-games">
+        <!-- Popular games will appear here -->
+      </div>
+    </div>
+
+    <!-- Games Page -->
+    <div id="games" class="page">
+      <h1>All Games</h1>
+      <input class="search-box" placeholder="Search games..." oninput="searchGames(this.value)">
+      <div class="games-grid" id="all-games"></div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="settings" class="page">
+      <h1>Settings</h1>
+      
+      <div class="setting">
+        <span>Site Name</span>
+        <input id="site-name" value="MySite" style="background:#0f0f13; border:1px solid #2a2a35; color:white; padding:6px 10px; border-radius:6px;">
+      </div>
+
+      <div class="setting">
+        <span>Theme Color</span>
+        <input type="color" id="theme-color" value="#7c6bff">
+      </div>
+
+      <br>
+      <button onclick="saveSettings()">Save Settings</button>
+    </div>
+
+  </div>
+
+  <script>
+    // ======================
+    // ADD YOUR GAMES HERE
+    // ======================
+    const games = [
+      { name: "Slope", url: "https://slope.io", image: "https://via.placeholder.com/160x120?text=Slope" },
+      { name: "1v1.LOL", url: "https://1v1.lol", image: "https://via.placeholder.com/160x120?text=1v1.LOL" },
+      { name: "Retro Bowl", url: "https://retrobowl.me", image: "https://via.placeholder.com/160x120?text=Retro+Bowl" },
+      { name: "Cookie Clicker", url: "https://orteil.dashnet.org/cookieclicker/", image: "https://via.placeholder.com/160x120?text=Cookie+Clicker" },
+      { name: "2048", url: "https://play2048.co", image: "https://via.placeholder.com/160x120?text=2048" },
+      { name: "Geometry Dash", url: "https://geometrydash.io", image: "https://via.placeholder.com/160x120?text=Geometry+Dash" },
+    ];
+
+    // Show different pages
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      // Show selected page
+      document.getElementById(pageId).classList.add('active');
+
+      // Update sidebar active state
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    // Create game cards
+    function createGameCard(game) {
+      return `
+        <div class="game-card" onclick="window.open('${game.url}', '_blank')">
+          <img src="${game.image}" alt="${game.name}">
+          <div class="title">${game.name}</div>
+        </div>
+      `;
+    }
+
+    // Load games
+    function loadGames() {
+      const homeGrid = document.getElementById('home-games');
+      const allGrid = document.getElementById('all-games');
+
+      homeGrid.innerHTML = games.slice(0, 6).map(createGameCard).join('');
+      allGrid.innerHTML = games.map(createGameCard).join('');
+    }
+
+    // Search games
+    function searchGames(query) {
+      const filtered = games.filter(g => g.name.toLowerCase().includes(query.toLowerCase()));
+      document.getElementById('all-games').innerHTML = filtered.map(createGameCard).join('');
+      document.getElementById('home-games').innerHTML = filtered.slice(0, 6).map(createGameCard).join('');
+    }
+
+    // Settings
+    function saveSettings() {
+      const name = document.getElementById('site-name').value;
+      document.querySelector('.logo').textContent = name;
+      document.title = name;
+
+      const color = document.getElementById('theme-color').value;
+      document.documentElement.style.setProperty('--main-color', color);
+      alert('Settings saved!');
+    }
+
+    // Start the site
+    loadGames();
+  </script>
+</body>
+</html>
